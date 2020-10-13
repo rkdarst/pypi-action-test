@@ -35,7 +35,7 @@ jobs:
     - name: Check version
       run: |
         pip install .
-        MOD_VERSION=$(python -c "import $MOD_NAME ; print($MOD_NAME.__version__)"
+        MOD_VERSION=$(python -c "import $MOD_NAME ; print($MOD_NAME.__version__)")
         echo $MOD_VERSION
         TAG_VERSION=${{ github.ref }}
         echo $TAG_VERSION
