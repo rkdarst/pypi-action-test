@@ -1,7 +1,9 @@
 name: PyPI release
 
-env:
-  MOD_NAME: sphinx_minipres
+# If MOD_NAME not defined, infer it from the current directory
+
+#env:
+#  MOD_NAME: numpy
 
 on:
   release:
@@ -35,11 +37,20 @@ jobs:
     - name: Check version
       run: |
         pip install .
+        # If MOD_NAME not defined, infer it from the directory name
+        if [ -z "$MOD_NAME" ] ; then
+            # strip leading directories
+            MOD_NAME=${PWD##*/}
+            # replace '-' with '_'
+            MOD_NAME=${MOD_NAME/-/_}
+        fi
+        # Find the versions
         MOD_VERSION=$(python -c "import $MOD_NAME ; print($MOD_NAME.__version__)")
         echo $MOD_VERSION
         TAG_VERSION=${{ github.ref }}
         echo $TAG_VERSION
         TAG_VERSION=${TAG_VERSION##refs/tags/}   # remove leading 'refs/tags/'
+        # Do the actual check
         if [ "$MOD_VERSION" != "$TAG_VERSION" ] ; then
           echo "::error::Module version ($MOD_VERSION) des not match tag version ($TAG_VERSION)"
           exit 1
@@ -52,4 +63,3 @@ jobs:
         user: __token__
         password: ${{ secrets.pypi_password }}
         repository_url: https://test.pypi.org/legacy/
-
