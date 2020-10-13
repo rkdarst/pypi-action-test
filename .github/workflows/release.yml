@@ -60,7 +60,7 @@ jobs:
             # strip leading directories
             MOD_NAME=${PWD##*/}
             # replace '-' with '_'
-            MOD_NAME=${MOD_NAME/-/_}
+            MOD_NAME=${MOD_NAME//-/_}
         fi
         # Find the versions
         MOD_VERSION=$(python -c "import $MOD_NAME ; print($MOD_NAME.__version__)")
