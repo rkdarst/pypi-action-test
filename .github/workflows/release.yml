@@ -1,7 +1,25 @@
 name: PyPI release
 
-# If MOD_NAME not defined, infer it from the current directory
+# Make a PyPI release.  This action:
+# - builds the release files
+# - checks the tag version matches the source version
+# - releases on PyPI using the action
+#
+# The first time, you have to upload the release yourself to get the
+# API key, to add to gh-secrets.
+#
+# I upload it with:
+#   python setup.py sdist bdist_wheel
+#   twine upload dist/*
+#
+# To configure the secrets, see steps here:
+#   https://github.com/pypa/gh-action-pypi-publish
+#   secret name= pypi_password
 
+
+# If MOD_NAME not defined, infer it from the current directory.  If
+# inferred from the directory, '-' is replaced with '_'.  This is used
+# when checking the version name.
 #env:
 #  MOD_NAME: numpy
 
