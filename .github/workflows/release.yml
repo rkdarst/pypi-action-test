@@ -23,17 +23,14 @@ name: PyPI release
 #env:
 #  MOD_NAME: numpy
 
-on:
-  release:
-    types: [created]
+on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
 
     steps:
-
     - uses: actions/checkout@v2
 
     - name: Set up Python
@@ -52,7 +49,7 @@ jobs:
 
     # Verify that the git tag has the same version as the python
     # project version.
-    - name: Check version
+    - name: Check that versions match
       run: |
         pip install .
         # If MOD_NAME not defined, infer it from the directory name
